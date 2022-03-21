@@ -7,12 +7,14 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="org.jetbrains.plugins.template.services.MyApplicationService"/>
-        <projectService serviceImplementation="org.jetbrains.plugins.template.services.MyProjectService"/>
+        <applicationService serviceImplementation="com.olmschenk.minilang.services.MyApplicationService"/>
+        <projectService serviceImplementation="com.olmschenk.minilang.services.MyProjectService"/>
+        <fileType name="MiniLang File" implementationClass="com.olmschenk.minilang.MiniLangFileType"
+                  fieldName="INSTANCE" language="MiniLang" extensions="minilang"/>
     </extensions>
 
     <applicationListeners>
-        <listener class="org.jetbrains.plugins.template.listeners.MyProjectManagerListener"
+        <listener class="com.olmschenk.minilang.listeners.MyProjectManagerListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 </idea-plugin>
