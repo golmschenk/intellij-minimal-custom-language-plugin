@@ -11,6 +11,8 @@
         <projectService serviceImplementation="com.olmschenk.minilang.services.MyProjectService"/>
         <fileType name="MiniLang File" implementationClass="com.olmschenk.minilang.MiniLangFileType"
                   fieldName="INSTANCE" language="MiniLang" extensions="minilang"/>
+        <lang.parserDefinition language="MiniLang"
+                               implementationClass="com.olmschenk.minilang.MiniLangParserDefinition"/>
     </extensions>
 
     <applicationListeners>

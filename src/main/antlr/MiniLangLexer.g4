@@ -1,7 +1,7 @@
 lexer grammar MiniLangLexer ;
 
-WHITESPACE : NON_NEWLINE_WHITESPACE_CHARACTER+ ;
-NEWLINE : '\n' ;
+WHITESPACE : ('\t' | ' ' | '\n' | '\r' | '\u000C')+ ;
+SEMICOLON : ';' ;
 LET : 'let' ;
 EQUALS : '=' ;
 PLUS : '+' ;
@@ -13,5 +13,3 @@ fragment
 ALPHA : [A-Za-z] ;
 fragment
 DIGIT : [0-9] ;
-fragment
-NON_NEWLINE_WHITESPACE_CHARACTER : ('\t' | ' ' | '\r' | '\u000C') ;

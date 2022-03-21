@@ -3,13 +3,13 @@ package com.olmschenk.minilang
 import com.intellij.openapi.fileTypes.LanguageFileType
 import javax.swing.Icon
 
-class MiniLangFileType protected constructor() : LanguageFileType(MiniLangParser.INSTANCE) {
+class MiniLangFileType protected constructor() : LanguageFileType(MiniLangLanguage.INSTANCE) {
     override fun getName(): String {
-        return "Sile File"
+        return "MiniLang File"
     }
 
     override fun getDescription(): String {
-        return "Sile file"
+        return "MiniLang file"
     }
 
     override fun getDefaultExtension(): String {
@@ -21,7 +21,7 @@ class MiniLangFileType protected constructor() : LanguageFileType(MiniLangParser
     }
 
     companion object {
-        const val FILE_EXTENSION = "sile"
+        const val FILE_EXTENSION = "minilang"
         val INSTANCE = MiniLangFileType()
     }
 }

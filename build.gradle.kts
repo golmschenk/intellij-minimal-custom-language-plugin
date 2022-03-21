@@ -121,9 +121,9 @@ tasks {
     }
 
     generateGrammarSource {
-        val additionalArguments: Collection<String> = listOf("-package", "com.olmschenk.sile.parser")
+        val additionalArguments: Collection<String> = listOf("-package", "com.olmschenk.minilang.parser")
         arguments.addAll(additionalArguments)
-        outputDirectory = File(buildDir.toString() + "/generated-src/antlr/main/com/olmschenk/sile/parser")
+        outputDirectory = File(buildDir.toString() + "/generated-src/antlr/main/com/olmschenk/minilang/parser")
     }
 
     compileKotlin {
