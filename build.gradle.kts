@@ -7,13 +7,19 @@ plugins {
     // Java support
     id("java")
     // Kotlin support
-    id("org.jetbrains.kotlin.jvm") version "1.6.10"
+    id("org.jetbrains.kotlin.jvm") version "1.6.0"
     // Gradle IntelliJ Plugin
-    id("org.jetbrains.intellij") version "1.4.0"
+    id("org.jetbrains.intellij") version "1.3.0"
     // Gradle Changelog Plugin
     id("org.jetbrains.changelog") version "1.3.1"
     // Gradle Qodana Plugin
     id("org.jetbrains.qodana") version "0.1.13"
+    antlr
+}
+
+dependencies {
+    "antlr"("org.antlr:antlr4:4.9.3")
+    implementation("org.antlr:antlr4-intellij-adaptor:0.1")
 }
 
 group = properties("pluginGroup")
@@ -112,5 +118,15 @@ tasks {
         // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
         // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
         channels.set(listOf(properties("pluginVersion").split('-').getOrElse(1) { "default" }.split('.').first()))
+    }
+
+    generateGrammarSource {
+        val additionalArguments: Collection<String> = listOf("-package", "com.olmschenk.sile.parser")
+        arguments.addAll(additionalArguments)
+        outputDirectory = File(buildDir.toString() + "/generated-src/antlr/main/com/olmschenk/sile/parser")
+    }
+
+    compileKotlin {
+        dependsOn(generateGrammarSource)
     }
 }
