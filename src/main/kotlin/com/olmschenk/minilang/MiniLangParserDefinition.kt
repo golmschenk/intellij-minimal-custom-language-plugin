@@ -1,5 +1,6 @@
 package com.olmschenk.minilang
 
+import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
 import com.intellij.lang.ParserDefinition.SpaceRequirements
@@ -9,16 +10,16 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import com.olmschenk.minilang.parser.MiniLangLexer
 import com.olmschenk.minilang.parser.MiniLangParser
+import com.olmschenk.minilang.psi.MiniLangNameIdentifierOwner
 import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
+import org.antlr.intellij.adaptor.lexer.RuleIElementType
 import org.antlr.intellij.adaptor.parser.ANTLRParserAdaptor
-import org.antlr.intellij.adaptor.psi.ANTLRPsiNode
 import org.antlr.v4.runtime.Parser
 import org.antlr.v4.runtime.tree.ParseTree
 
@@ -63,7 +64,19 @@ class MiniLangParserDefinition : ParserDefinition {
     }
 
     override fun createElement(node: ASTNode): PsiElement {
-        return ANTLRPsiNode(node)
+        val elementType = node.elementType
+        if ((elementType as RuleIElementType).ruleIndex == MiniLangParser.RULE_variable_definition_identifier) {
+            return MiniLangNameIdentifierOwner(node)
+        }
+        // if (elementType is TokenIElementType && elementType.antlrTokenType == MiniLangLexer.VARIABLE_IDENTIFIER) {
+        //     if ((node.treeParent as RuleIElementType).ruleIndex == MiniLangParser.RULE_variable_definition_identifier) {
+        //         return MiniLangNameIdentifierOwner(node)
+        //     }
+        //     // else {
+        //     //     return MiniLangReference(node) // TODO: return a reference node.
+        //     // }
+        // }
+        return ASTWrapperPsiElement(node)
     }
 
     companion object {

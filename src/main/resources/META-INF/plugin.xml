@@ -11,8 +11,12 @@
         <projectService serviceImplementation="com.olmschenk.minilang.services.MyProjectService"/>
         <fileType name="MiniLang File" implementationClass="com.olmschenk.minilang.MiniLangFileType"
                   fieldName="INSTANCE" language="MiniLang" extensions="minilang"/>
+        <lang.ast.factory language="MiniLang" implementationClass="com.olmschenk.minilang.MiniLangAstFactory"/>
         <lang.parserDefinition language="MiniLang"
                                implementationClass="com.olmschenk.minilang.MiniLangParserDefinition"/>
+        <lang.refactoringSupport
+                language="MiniLang"
+                implementationClass="com.olmschenk.minilang.MiniLangRefactoringSupportProvider"/>
     </extensions>
 
     <applicationListeners>
