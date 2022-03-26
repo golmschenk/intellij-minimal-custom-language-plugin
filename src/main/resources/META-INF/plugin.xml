@@ -14,6 +14,8 @@
         <lang.ast.factory language="MiniLang" implementationClass="com.olmschenk.minilang.MiniLangAstFactory"/>
         <lang.parserDefinition language="MiniLang"
                                implementationClass="com.olmschenk.minilang.MiniLangParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="MiniLang"
+                                       implementationClass="com.olmschenk.minilang.MiniLangSyntaxHighlighterFactory"/>
         <lang.refactoringSupport
                 language="MiniLang"
                 implementationClass="com.olmschenk.minilang.MiniLangRefactoringSupportProvider"/>
