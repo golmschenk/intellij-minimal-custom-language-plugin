@@ -16,6 +16,7 @@ import com.intellij.psi.tree.TokenSet
 import com.olmschenk.minilang.parser.MiniLangLexer
 import com.olmschenk.minilang.parser.MiniLangParser
 import com.olmschenk.minilang.psi.MiniLangNameIdentifierOwner
+import com.olmschenk.minilang.psi.impl.MiniLangVariableIdentifierImpl
 import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
 import org.antlr.intellij.adaptor.lexer.RuleIElementType
@@ -66,16 +67,8 @@ class MiniLangParserDefinition : ParserDefinition {
     override fun createElement(node: ASTNode): PsiElement {
         val elementType = node.elementType
         if ((elementType as RuleIElementType).ruleIndex == MiniLangParser.RULE_variable_definition_identifier) {
-            return MiniLangNameIdentifierOwner(node)
+            return MiniLangVariableIdentifierImpl(node)
         }
-        // if (elementType is TokenIElementType && elementType.antlrTokenType == MiniLangLexer.VARIABLE_IDENTIFIER) {
-        //     if ((node.treeParent as RuleIElementType).ruleIndex == MiniLangParser.RULE_variable_definition_identifier) {
-        //         return MiniLangNameIdentifierOwner(node)
-        //     }
-        //     // else {
-        //     //     return MiniLangReference(node) // TODO: return a reference node.
-        //     // }
-        // }
         return ASTWrapperPsiElement(node)
     }
 

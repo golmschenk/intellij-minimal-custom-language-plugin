@@ -22,10 +22,10 @@ class MiniLangReference(element: PsiElement, textRange: TextRange) : PsiReferenc
             )
         )
         for (virtualFile in virtualFiles) {
-            val simpleFile = PsiManager.getInstance(project).findFile(virtualFile!!) as MiniLangFile?
-            if (simpleFile != null) {
+            val miniLangFile = PsiManager.getInstance(project).findFile(virtualFile!!) as MiniLangFile?
+            if (miniLangFile != null) {
                 val nameIdentifierOwners = PsiTreeUtil.getChildrenOfType(
-                    simpleFile,
+                    miniLangFile,
                     MiniLangNameIdentifierOwner::class.java
                 )
                 if (nameIdentifierOwners != null) {

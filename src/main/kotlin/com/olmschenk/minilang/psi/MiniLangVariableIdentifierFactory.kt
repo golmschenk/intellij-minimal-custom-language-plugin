@@ -5,11 +5,13 @@ import com.intellij.psi.PsiFileFactory
 import com.olmschenk.minilang.MiniLangFile
 import com.olmschenk.minilang.MiniLangFileType
 
-object MiniLangNameIdentifierOwnerFactory {
+object MiniLangVariableIdentifierFactory {
     @JvmStatic
-    fun create(project: Project?, name: String?): MiniLangNameIdentifierOwner {
-        val file = createFile(project, name)
-        return file.firstChild as MiniLangNameIdentifierOwner
+    fun createVariableIdentifier(project: Project?, name: String?): MiniLangVariableIdentifier {
+        val statementText = "let {$name} = 0;"
+        val file = createFile(project, statementText)
+        val variableIdentifierNode = file.firstChild.firstChild.children[1]  // TODO: This certainly doesn't seem like the appropriate way to do this.
+        return variableIdentifierNode as MiniLangVariableIdentifier
     }
 
     fun createFile(project: Project?, text: String?): MiniLangFile {
