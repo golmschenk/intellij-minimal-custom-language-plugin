@@ -19,6 +19,9 @@
         <lang.refactoringSupport
                 language="MiniLang"
                 implementationClass="com.olmschenk.minilang.MiniLangRefactoringSupportProvider"/>
+        <lang.findUsagesProvider
+                language="MiniLang"
+                implementationClass="com.olmschenk.minilang.MiniLangFindUsagesProvider"/>
     </extensions>
 
     <applicationListeners>
