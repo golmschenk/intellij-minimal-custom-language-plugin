@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.tree.TokenSet
 import com.olmschenk.minilang.parser.MiniLangLexer
-import com.olmschenk.minilang.psi.MiniLangVariableIdentifier
+import com.olmschenk.minilang.psi.MiniLangVariableDeclaration
 import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
 
@@ -34,7 +34,7 @@ class MiniLangFindUsagesProvider : FindUsagesProvider {
     }
 
     override fun getType(element: PsiElement): String {
-        return if (element is MiniLangVariableIdentifier) {
+        return if (element is MiniLangVariableDeclaration) {
             "variable identifier"
         } else {
             ""
@@ -42,7 +42,7 @@ class MiniLangFindUsagesProvider : FindUsagesProvider {
     }
 
     override fun getDescriptiveName(element: PsiElement): String {
-        return if (element is MiniLangVariableIdentifier) {
+        return if (element is MiniLangVariableDeclaration) {
             element.text
         } else {
             ""
@@ -50,7 +50,7 @@ class MiniLangFindUsagesProvider : FindUsagesProvider {
     }
 
     override fun getNodeText(element: PsiElement, useFullName: Boolean): String {
-        return if (element is MiniLangVariableIdentifier) {
+        return if (element is MiniLangVariableDeclaration) {
             element.text
         } else {
             ""

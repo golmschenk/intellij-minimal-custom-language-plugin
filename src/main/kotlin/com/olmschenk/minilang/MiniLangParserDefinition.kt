@@ -15,8 +15,8 @@ import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import com.olmschenk.minilang.parser.MiniLangLexer
 import com.olmschenk.minilang.parser.MiniLangParser
-import com.olmschenk.minilang.psi.MiniLangNameIdentifierOwner
-import com.olmschenk.minilang.psi.impl.MiniLangVariableIdentifierImpl
+import com.olmschenk.minilang.psi.impl.MiniLangVariableDeclarationImpl
+import com.olmschenk.minilang.psi.impl.MiniLangVariableUsageImpl
 import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
 import org.antlr.intellij.adaptor.lexer.RuleIElementType
@@ -67,7 +67,16 @@ class MiniLangParserDefinition : ParserDefinition {
     override fun createElement(node: ASTNode): PsiElement {
         val elementType = node.elementType
         if ((elementType as RuleIElementType).ruleIndex == MiniLangParser.RULE_variable_definition_identifier) {
-            return MiniLangVariableIdentifierImpl(node)
+            return MiniLangVariableDeclarationImpl(node)
+        }
+        // TODO: Terrible hack for now just to force variable usages to use references.
+        if ((elementType as RuleIElementType).ruleIndex == MiniLangParser.RULE_value) {
+            val variableIdentifierNameNode: ASTNode? = node.findChildByType(
+                PSIElementTypeFactory.createTokenSet(MiniLangLanguage.INSTANCE, MiniLangLexer.VARIABLE_IDENTIFIER)
+            )
+            if (variableIdentifierNameNode != null) {
+                return MiniLangVariableUsageImpl(node)
+            }
         }
         return ASTWrapperPsiElement(node)
     }
