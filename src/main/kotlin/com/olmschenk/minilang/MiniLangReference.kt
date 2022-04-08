@@ -63,10 +63,4 @@ class MiniLangReference(element: PsiElement, textRange: TextRange) : PsiReferenc
     override fun handleElementRename(newElementName: String): PsiElement? {
         return (myElement as MiniLangRenamableElement).rename(newElementName)
     }
-
-    // This needs to be explicitly overwritten to return the relative range it would seem.
-    // Actually, it looks like I might be supposed to be passing in the relative range element to begin with.
-    // override fun getRangeInElement(): TextRange {
-    //     return TextRange(0, myElement!!.text.length)
-    // }
 }
