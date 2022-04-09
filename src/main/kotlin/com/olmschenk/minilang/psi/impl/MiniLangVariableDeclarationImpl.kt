@@ -1,5 +1,6 @@
 package com.olmschenk.minilang.psi.impl
 
+import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
@@ -13,7 +14,7 @@ import com.olmschenk.minilang.psi.MiniLangVariableDeclaration
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
 
 
-class MiniLangVariableDeclarationImpl(node: ASTNode) : MiniLangNameIdentifierOwnerImpl(node),
+class MiniLangVariableDeclarationImpl(node: ASTNode) : ASTWrapperPsiElement(node),
     MiniLangVariableDeclaration {
 
     override fun getName(): String? {
