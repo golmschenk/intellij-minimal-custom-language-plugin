@@ -9,8 +9,7 @@ import com.olmschenk.minilang.psi.MiniLangNameIdentifierOwner
 import com.olmschenk.minilang.psi.MiniLangRenamableElement.MiniLangRenamableElement
 
 
-class MiniLangReference(element: PsiElement, textRange: TextRange) : PsiReferenceBase<PsiElement?>(element, textRange),
-    PsiPolyVariantReference {
+class MiniLangReference(element: PsiElement, textRange: TextRange) : PsiPolyVariantReferenceBase<PsiElement?>(element, textRange) {
     override fun resolve(): PsiElement? {
         val resolveResults = multiResolve(false)
         return if (resolveResults.size == 1) resolveResults[0].element else null
