@@ -69,14 +69,8 @@ class MiniLangParserDefinition : ParserDefinition {
         if ((elementType as RuleIElementType).ruleIndex == MiniLangParser.RULE_variable_definition_identifier) {
             return MiniLangVariableDeclarationImpl(node)
         }
-        // TODO: Terrible hack for now just to force variable usages to use references.
-        if ((elementType as RuleIElementType).ruleIndex == MiniLangParser.RULE_value) {
-            val variableIdentifierNameNode: ASTNode? = node.findChildByType(
-                PSIElementTypeFactory.createTokenSet(MiniLangLanguage.INSTANCE, MiniLangLexer.VARIABLE_IDENTIFIER)
-            )
-            if (variableIdentifierNameNode != null) {
-                return MiniLangVariableUsageImpl(node)
-            }
+        if ((elementType as RuleIElementType).ruleIndex == MiniLangParser.RULE_variable_reference_identifier) {
+            return MiniLangVariableUsageImpl(node)
         }
         return ASTWrapperPsiElement(node)
     }

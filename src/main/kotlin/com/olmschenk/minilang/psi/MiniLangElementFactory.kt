@@ -10,7 +10,7 @@ object MiniLangElementFactory {
     fun createVariableIdentifier(project: Project?, name: String?): MiniLangNameIdentifierOwner {
         val statementText = "let $name = 0;"
         val file = createFile(project, statementText)
-        val variableIdentifierNode = file.firstChild.firstChild.children[0]  // TODO: This certainly doesn't seem like the appropriate way to do this.
+        val variableIdentifierNode = file.children[0].children[0].children[0]  // TODO: This certainly doesn't seem like the appropriate way to do this.
         return variableIdentifierNode as MiniLangNameIdentifierOwner
     }
 
@@ -18,7 +18,7 @@ object MiniLangElementFactory {
     fun createVariableUsage(project: Project?, name: String?): MiniLangVariableUsage {
         val statementText = "let x = $name;"
         val file = createFile(project, statementText)
-        val variableIdentifierNode = file.firstChild.firstChild.children[1].children[0]
+        val variableIdentifierNode = file.children[0].children[0].children[1].children[0].children[0]
         return variableIdentifierNode as MiniLangVariableUsage
     }
 
