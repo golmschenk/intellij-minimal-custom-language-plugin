@@ -26,36 +26,13 @@ class MiniLangReference(element: PsiElement, textRange: TextRange) : PsiPolyVari
         for (virtualFile in virtualFiles) {
             val miniLangFile = PsiManager.getInstance(project).findFile(virtualFile!!) as MiniLangFile?
             val root = miniLangFile
-            recursiveVariableDefinitionSearch(root, variableDefinitions)
+            MiniLangPsiTreeSearcher.recursiveVariableDefinitionSearch((myElement as PsiElement).text, root, variableDefinitions)
         }
         val results: MutableList<ResolveResult> = ArrayList()
         for (variableDefinition in variableDefinitions) {
             results.add(PsiElementResolveResult(variableDefinition))
         }
         return results.toTypedArray()
-    }
-
-    // TODO: Check if there's a built in recursive search.
-    private fun recursiveVariableDefinitionSearch(
-        root: PsiElement?,
-        variableDefinitions: MutableList<MiniLangNameIdentifierOwner>
-    ) {
-        if (root != null) {
-            val nameIdentifierOwners = PsiTreeUtil.getChildrenOfType(
-                root,
-                MiniLangNameIdentifierOwner::class.java
-            )
-            if (nameIdentifierOwners != null) {
-                for (nameIdentifierOwner in nameIdentifierOwners) {
-                    if ((myElement as PsiElement).text == nameIdentifierOwner.text) {
-                        variableDefinitions.add(nameIdentifierOwner)
-                    }
-                }
-            }
-            for (child in root.children) {
-                recursiveVariableDefinitionSearch(child, variableDefinitions)
-            }
-        }
     }
 
     // `setName` is called for the element being renamed, and this is called for all references of that element.

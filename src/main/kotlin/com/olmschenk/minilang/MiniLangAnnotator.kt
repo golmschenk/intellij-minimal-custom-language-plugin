@@ -9,16 +9,13 @@ import com.olmschenk.minilang.psi.MiniLangVariableUsage
 
 class MiniLangAnnotator : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
-        if (element !is MiniLangVariableUsage) {
-            return
-        }
-
-        val reference = (element.reference as MiniLangReference)
-        if (reference.multiResolve(false).isEmpty()) {
-            holder.newAnnotation(HighlightSeverity.ERROR, "Unresolved property")
-                .range(element.textRange)
-                .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)
-                .create()
+        if (element is MiniLangVariableUsage) {
+            if (!MiniLangPsiTreeSearcher.isVariableDefinedAtElement(element.text, element)) {
+                holder.newAnnotation(HighlightSeverity.ERROR, "Unresolved property: ${element.text}")
+                    .range(element.textRange)
+                    .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)
+                    .create()
+            }
         }
     }
 }
