@@ -43,7 +43,7 @@ class MiniLangPsiTreeSearcher {
                     return true
                 }
             }
-            if (element !is MiniLangFile) {  // TODO: Consider if there's a better way to stop the tree search than just hitting the MiniLang file. Probably need to look into scopes or such.
+            if (element.parent !is MiniLangFile) {  // TODO: Consider if there's a better way to stop the tree search than just hitting the MiniLang file. Probably need to look into scopes or such.
                 return isVariableDefinedAtElement(variableName, element.parent)
             }
             else {
