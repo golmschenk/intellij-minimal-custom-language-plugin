@@ -6,6 +6,7 @@ import com.intellij.psi.search.FileTypeIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.olmschenk.minilang.psi.MiniLangNameIdentifierOwner
 import com.olmschenk.minilang.psi.MiniLangRenamableElement
+import com.olmschenk.minilang.psi.MiniLangVariableIdentifier
 
 
 class MiniLangReference(element: PsiElement, textRange: TextRange) : PsiPolyVariantReferenceBase<PsiElement?>(element, textRange) {
@@ -25,7 +26,7 @@ class MiniLangReference(element: PsiElement, textRange: TextRange) : PsiPolyVari
         for (virtualFile in virtualFiles) {
             val miniLangFile = PsiManager.getInstance(project).findFile(virtualFile!!) as MiniLangFile?
             val root = miniLangFile
-            MiniLangPsiTreeSearcher.recursiveVariableDefinitionSearch((myElement as PsiElement).text, root, variableDefinitions)
+            (myElement as MiniLangVariableIdentifier).searchForDefinitionRecursively(root, variableDefinitions)
         }
         val results: MutableList<ResolveResult> = ArrayList()
         for (variableDefinition in variableDefinitions) {

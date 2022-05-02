@@ -10,7 +10,7 @@ import com.olmschenk.minilang.psi.MiniLangVariableReferrer
 class MiniLangAnnotator : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         if (element is MiniLangVariableReferrer) {
-            if (!MiniLangPsiTreeSearcher.isVariableDefinedAtElement(element.text, element)) {
+            if (!element.isDefinedAtElement(element)) {
                 holder.newAnnotation(HighlightSeverity.ERROR, "Unresolved variable: ${element.text}")
                     .range(element.textRange)
                     .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)

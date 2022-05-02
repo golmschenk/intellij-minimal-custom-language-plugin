@@ -17,13 +17,6 @@ import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
 class MiniLangVariableDeclarationImpl(node: ASTNode) : MiniLangVariableIdentifierImpl(node),
     MiniLangVariableDeclaration {
 
-    override fun getName(): String? {
-        val variableIdentifierNameNode: ASTNode? = this.node.findChildByType(
-            PSIElementTypeFactory.createTokenSet(MiniLangLanguage.INSTANCE, MiniLangLexer.IDENTIFIER)
-        )
-        return variableIdentifierNameNode?.text
-    }
-
     override fun setName(name: String): PsiElement {
         return rename(name)
     }
