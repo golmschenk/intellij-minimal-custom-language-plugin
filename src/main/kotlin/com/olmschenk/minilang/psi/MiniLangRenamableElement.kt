@@ -1,4 +1,4 @@
-package com.olmschenk.minilang.psi.MiniLangRenamableElement
+package com.olmschenk.minilang.psi
 
 import com.intellij.psi.PsiElement
 
