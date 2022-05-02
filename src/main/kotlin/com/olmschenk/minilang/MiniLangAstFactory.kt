@@ -9,7 +9,7 @@ import org.antlr.intellij.adaptor.lexer.TokenIElementType
 
 class MiniLangAstFactory : DefaultASTFactoryImpl() {
     override fun createLeaf(type: IElementType, text: CharSequence): LeafElement {
-        if (type is TokenIElementType && type.antlrTokenType == MiniLangLexer.VARIABLE_IDENTIFIER) {
+        if (type is TokenIElementType && type.antlrTokenType == MiniLangLexer.IDENTIFIER) {
             return MiniLangVariableIdentifierNameLeafPsiElement(type, text)
         } else {
             return super.createLeaf(type, text)

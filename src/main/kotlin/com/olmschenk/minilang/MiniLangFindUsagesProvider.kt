@@ -18,7 +18,7 @@ class MiniLangFindUsagesProvider : FindUsagesProvider {
             ANTLRLexerAdaptor(MiniLangLanguage.INSTANCE, MiniLangLexer(null)),
             PSIElementTypeFactory.createTokenSet(
                 MiniLangLanguage.INSTANCE,
-                MiniLangLexer.VARIABLE_IDENTIFIER
+                MiniLangLexer.IDENTIFIER
             ),
             TokenSet.EMPTY,
             TokenSet.EMPTY

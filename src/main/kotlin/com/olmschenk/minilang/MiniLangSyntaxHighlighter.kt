@@ -23,8 +23,8 @@ class MiniLangSyntaxHighlighter : SyntaxHighlighterBase() {
         val ttype = tokenType.antlrTokenType
         val attrKey: TextAttributesKey
         attrKey = when (ttype) {
-            MiniLangLexer.VARIABLE_IDENTIFIER -> ID
-            MiniLangLexer.LET -> KEYWORD
+            MiniLangLexer.IDENTIFIER -> ID
+            MiniLangLexer.LET, MiniLangLexer.USE -> KEYWORD
             MiniLangLexer.NUMBER -> NUMBER
             else -> return EMPTY_KEYS
         }
@@ -33,7 +33,7 @@ class MiniLangSyntaxHighlighter : SyntaxHighlighterBase() {
 
     companion object {
         private val EMPTY_KEYS = arrayOfNulls<TextAttributesKey>(0)
-        val ID = TextAttributesKey.createTextAttributesKey("MINI_LANG_VARIABLE_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER)
+        val ID = TextAttributesKey.createTextAttributesKey("MINI_LANG_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER)
         val KEYWORD =
             TextAttributesKey.createTextAttributesKey("MINI_LANG_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)
         val NUMBER = TextAttributesKey.createTextAttributesKey("MINI_LANG_NUMBER", DefaultLanguageHighlighterColors.NUMBER)

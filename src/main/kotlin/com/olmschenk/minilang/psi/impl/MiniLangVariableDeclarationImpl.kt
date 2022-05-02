@@ -19,14 +19,14 @@ class MiniLangVariableDeclarationImpl(node: ASTNode) : ASTWrapperPsiElement(node
 
     override fun getName(): String? {
         val variableIdentifierNameNode: ASTNode? = this.node.findChildByType(
-            PSIElementTypeFactory.createTokenSet(MiniLangLanguage.INSTANCE, MiniLangLexer.VARIABLE_IDENTIFIER)
+            PSIElementTypeFactory.createTokenSet(MiniLangLanguage.INSTANCE, MiniLangLexer.IDENTIFIER)
         )
         return variableIdentifierNameNode?.text
     }
 
     override fun setName(name: String): PsiElement {
         val variableIdentifierNameNode: ASTNode? = this.node.findChildByType(
-            PSIElementTypeFactory.createTokenSet(MiniLangLanguage.INSTANCE, MiniLangLexer.VARIABLE_IDENTIFIER)
+            PSIElementTypeFactory.createTokenSet(MiniLangLanguage.INSTANCE, MiniLangLexer.IDENTIFIER)
         )
         if (variableIdentifierNameNode != null) {
             val miniLangNameIdentifierOwner: MiniLangNameIdentifierOwner = create(this.project, name)
@@ -38,7 +38,7 @@ class MiniLangVariableDeclarationImpl(node: ASTNode) : ASTWrapperPsiElement(node
 
     override fun getNameIdentifier(): PsiElement? {
         val childVariableIdentifierNameNode: ASTNode? = this.node.findChildByType(
-            PSIElementTypeFactory.createTokenSet(MiniLangLanguage.INSTANCE, MiniLangLexer.VARIABLE_IDENTIFIER)
+            PSIElementTypeFactory.createTokenSet(MiniLangLanguage.INSTANCE, MiniLangLexer.IDENTIFIER)
         )
         return childVariableIdentifierNameNode?.psi
     }

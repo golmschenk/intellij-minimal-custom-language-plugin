@@ -18,7 +18,7 @@ class MiniLangVariableUsageImpl(node: ASTNode) : ASTWrapperPsiElement(node), Min
 
     override fun rename(newName: String): PsiElement {
         val variableIdentifierNameNode: ASTNode? = this.node.findChildByType(
-            PSIElementTypeFactory.createTokenSet(MiniLangLanguage.INSTANCE, MiniLangLexer.VARIABLE_IDENTIFIER)
+            PSIElementTypeFactory.createTokenSet(MiniLangLanguage.INSTANCE, MiniLangLexer.IDENTIFIER)
         )
         if (variableIdentifierNameNode != null) {
             val miniLangVariableIdentifier: MiniLangVariableUsage = create(this.project, newName)

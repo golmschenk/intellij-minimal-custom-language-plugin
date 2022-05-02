@@ -3,9 +3,10 @@ lexer grammar MiniLangLexer ;
 WHITESPACE : ('\t' | ' ' | '\n' | '\r' | '\u000C')+ ;
 SEMICOLON : ';' ;
 LET : 'let' ;
+USE : 'use' ;
 EQUALS : '=' ;
 PLUS : '+' ;
-VARIABLE_IDENTIFIER : ALPHA+ ;
+IDENTIFIER : ALPHA+ ;
 NUMBER : DIGIT+ ;
 INVALID_CHARACTER: . -> channel(HIDDEN);
 
