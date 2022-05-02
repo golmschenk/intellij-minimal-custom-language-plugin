@@ -14,7 +14,7 @@ import com.olmschenk.minilang.psi.MiniLangVariableDeclaration
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
 
 
-class MiniLangVariableDeclarationImpl(node: ASTNode) : ASTWrapperPsiElement(node),
+class MiniLangVariableDeclarationImpl(node: ASTNode) : MiniLangVariableIdentifierImpl(node),
     MiniLangVariableDeclaration {
 
     override fun getName(): String? {
@@ -25,15 +25,7 @@ class MiniLangVariableDeclarationImpl(node: ASTNode) : ASTWrapperPsiElement(node
     }
 
     override fun setName(name: String): PsiElement {
-        val variableIdentifierNameNode: ASTNode? = this.node.findChildByType(
-            PSIElementTypeFactory.createTokenSet(MiniLangLanguage.INSTANCE, MiniLangLexer.IDENTIFIER)
-        )
-        if (variableIdentifierNameNode != null) {
-            val miniLangNameIdentifierOwner: MiniLangNameIdentifierOwner = create(this.project, name)
-            val newVariableIdentifierNameNode: ASTNode = miniLangNameIdentifierOwner.firstChild.node
-            this.node.replaceChild(variableIdentifierNameNode, newVariableIdentifierNameNode)
-        }
-        return this
+        return rename(name)
     }
 
     override fun getNameIdentifier(): PsiElement? {
@@ -43,18 +35,12 @@ class MiniLangVariableDeclarationImpl(node: ASTNode) : ASTWrapperPsiElement(node
         return childVariableIdentifierNameNode?.psi
     }
 
-    override fun rename(newName: String): PsiElement {
-        return this.setName(newName)
-    }
-
-    override fun getReference(): MiniLangReference = MiniLangReference(this, TextRange(0, this.text.length))
-
     companion object {
-        fun create(project: Project?, name: String?): MiniLangNameIdentifierOwner {
+        fun create(project: Project?, name: String?): MiniLangVariableDeclaration {
             val statementText = "let $name = 0;"
             val file = MiniLangFile.create(project, statementText)
             val variableIdentifierNode = file.children[0].children[0].children[0].children[0]  // TODO: This certainly doesn't seem like the appropriate way to do this.
-            return variableIdentifierNode as MiniLangNameIdentifierOwner
+            return variableIdentifierNode as MiniLangVariableDeclaration
         }
     }
 }

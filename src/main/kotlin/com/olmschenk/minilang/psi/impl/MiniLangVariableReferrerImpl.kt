@@ -12,22 +12,7 @@ import com.olmschenk.minilang.parser.MiniLangLexer
 import com.olmschenk.minilang.psi.MiniLangVariableReferrer
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
 
-class MiniLangVariableReferrerImpl(node: ASTNode) : ASTWrapperPsiElement(node), MiniLangVariableReferrer {
-
-    override fun getReference(): MiniLangReference = MiniLangReference(this, TextRange(0, this.text.length))
-
-    override fun rename(newName: String): PsiElement {
-        val variableIdentifierNameNode: ASTNode? = this.node.findChildByType(
-            PSIElementTypeFactory.createTokenSet(MiniLangLanguage.INSTANCE, MiniLangLexer.IDENTIFIER)
-        )
-        if (variableIdentifierNameNode != null) {
-            val miniLangVariableIdentifier: MiniLangVariableReferrer = create(this.project, newName)
-            val newVariableIdentifierNameNode: ASTNode = miniLangVariableIdentifier.firstChild.node
-            this.node.replaceChild(variableIdentifierNameNode, newVariableIdentifierNameNode)
-        }
-        return this
-    }
-
+class MiniLangVariableReferrerImpl(node: ASTNode) : MiniLangVariableIdentifierImpl(node), MiniLangVariableReferrer {
     companion object {
         fun create(project: Project?, name: String?): MiniLangVariableReferrer {
             val statementText = "let x = $name;"
