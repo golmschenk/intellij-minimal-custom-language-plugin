@@ -15,6 +15,7 @@ import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import com.olmschenk.minilang.parser.MiniLangLexer
 import com.olmschenk.minilang.parser.MiniLangParser
+import com.olmschenk.minilang.psi.impl.MiniLangModuleIdentifierImpl
 import com.olmschenk.minilang.psi.impl.MiniLangVariableDeclarationImpl
 import com.olmschenk.minilang.psi.impl.MiniLangVariableReferrerImpl
 import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor
@@ -71,6 +72,9 @@ class MiniLangParserDefinition : ParserDefinition {
         }
         if ((elementType as RuleIElementType).ruleIndex == MiniLangParser.RULE_variable_reference_identifier) {
             return MiniLangVariableReferrerImpl(node)
+        }
+        if ((elementType as RuleIElementType).ruleIndex == MiniLangParser.RULE_module_identifier) {
+            return MiniLangModuleIdentifierImpl(node)
         }
         return ASTWrapperPsiElement(node)
     }
