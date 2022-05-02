@@ -32,7 +32,7 @@ class MiniLangVariableReferrerImpl(node: ASTNode) : ASTWrapperPsiElement(node), 
         fun create(project: Project?, name: String?): MiniLangVariableReferrer {
             val statementText = "let x = $name;"
             val file = MiniLangFile.create(project, statementText)
-            val variableIdentifierNode = file.children[0].children[0].children[1].children[0].children[0]
+            val variableIdentifierNode = file.children[0].children[0].children[0].children[1].children[0].children[0]
             return variableIdentifierNode as MiniLangVariableReferrer
         }
     }

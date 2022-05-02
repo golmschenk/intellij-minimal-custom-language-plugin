@@ -53,7 +53,7 @@ class MiniLangVariableDeclarationImpl(node: ASTNode) : ASTWrapperPsiElement(node
         fun create(project: Project?, name: String?): MiniLangNameIdentifierOwner {
             val statementText = "let $name = 0;"
             val file = MiniLangFile.create(project, statementText)
-            val variableIdentifierNode = file.children[0].children[0].children[0]  // TODO: This certainly doesn't seem like the appropriate way to do this.
+            val variableIdentifierNode = file.children[0].children[0].children[0].children[0]  // TODO: This certainly doesn't seem like the appropriate way to do this.
             return variableIdentifierNode as MiniLangNameIdentifierOwner
         }
     }

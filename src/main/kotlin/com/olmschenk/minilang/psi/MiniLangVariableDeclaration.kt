@@ -1,3 +1,3 @@
 package com.olmschenk.minilang.psi
 
-interface MiniLangVariableDeclaration : MiniLangNameIdentifierOwner, MiniLangRenamableElement
+interface MiniLangVariableDeclaration : MiniLangNameIdentifierOwner, MiniLangVariableIdentifier

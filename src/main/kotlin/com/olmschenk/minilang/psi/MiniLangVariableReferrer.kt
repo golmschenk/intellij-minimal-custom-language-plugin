@@ -1,4 +1,4 @@
 package com.olmschenk.minilang.psi
 
-interface MiniLangVariableReferrer: MiniLangRenamableElement {
+interface MiniLangVariableReferrer: MiniLangVariableIdentifier {
 }
