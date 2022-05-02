@@ -9,10 +9,10 @@ import com.olmschenk.minilang.MiniLangFile
 import com.olmschenk.minilang.MiniLangLanguage
 import com.olmschenk.minilang.MiniLangReference
 import com.olmschenk.minilang.parser.MiniLangLexer
-import com.olmschenk.minilang.psi.MiniLangVariableUsage
+import com.olmschenk.minilang.psi.MiniLangVariableReferrer
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
 
-class MiniLangVariableUsageImpl(node: ASTNode) : ASTWrapperPsiElement(node), MiniLangVariableUsage {
+class MiniLangVariableReferrerImpl(node: ASTNode) : ASTWrapperPsiElement(node), MiniLangVariableReferrer {
 
     override fun getReference(): MiniLangReference = MiniLangReference(this, TextRange(0, this.text.length))
 
@@ -21,7 +21,7 @@ class MiniLangVariableUsageImpl(node: ASTNode) : ASTWrapperPsiElement(node), Min
             PSIElementTypeFactory.createTokenSet(MiniLangLanguage.INSTANCE, MiniLangLexer.IDENTIFIER)
         )
         if (variableIdentifierNameNode != null) {
-            val miniLangVariableIdentifier: MiniLangVariableUsage = create(this.project, newName)
+            val miniLangVariableIdentifier: MiniLangVariableReferrer = create(this.project, newName)
             val newVariableIdentifierNameNode: ASTNode = miniLangVariableIdentifier.firstChild.node
             this.node.replaceChild(variableIdentifierNameNode, newVariableIdentifierNameNode)
         }
@@ -29,11 +29,11 @@ class MiniLangVariableUsageImpl(node: ASTNode) : ASTWrapperPsiElement(node), Min
     }
 
     companion object {
-        fun create(project: Project?, name: String?): MiniLangVariableUsage {
+        fun create(project: Project?, name: String?): MiniLangVariableReferrer {
             val statementText = "let x = $name;"
             val file = MiniLangFile.create(project, statementText)
             val variableIdentifierNode = file.children[0].children[0].children[1].children[0].children[0]
-            return variableIdentifierNode as MiniLangVariableUsage
+            return variableIdentifierNode as MiniLangVariableReferrer
         }
     }
 }
