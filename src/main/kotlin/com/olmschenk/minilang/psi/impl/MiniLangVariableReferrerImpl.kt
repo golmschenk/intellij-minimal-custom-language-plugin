@@ -1,7 +1,10 @@
 package com.olmschenk.minilang.psi.impl
 
+import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
+import com.intellij.lang.annotation.AnnotationHolder
+import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
@@ -19,6 +22,15 @@ class MiniLangVariableReferrerImpl(node: ASTNode) : MiniLangVariableIdentifierIm
             val file = MiniLangFile.create(project, statementText)
             val variableIdentifierNode = file.children[0].children[0].children[0].children[1].children[0].children[0]
             return variableIdentifierNode as MiniLangVariableReferrer
+        }
+    }
+
+    override fun annotate(annotationHolder: AnnotationHolder) {
+        if (!this.isDefinedAtElement(this)) {
+            annotationHolder.newAnnotation(HighlightSeverity.ERROR, "Unresolved variable: ${this.text}")
+                .range(this.textRange)
+                .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)
+                .create()
         }
     }
 }
