@@ -5,6 +5,7 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.HighlightSeverity
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.search.FileTypeIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.olmschenk.minilang.MiniLangFileType
@@ -21,14 +22,18 @@ class MiniLangModuleIdentifierImpl(node: ASTNode) : ASTWrapperPsiElement(node), 
         }
     }
 
-    private fun fileExists(): Boolean {
+    override fun fileExists(): Boolean {
+        return getFile() != null
+    }
+
+    override fun getFile(): VirtualFile? {
         val virtualFiles = FileTypeIndex.getFiles(MiniLangFileType.INSTANCE, GlobalSearchScope.allScope(project))
         for (virtualFile in virtualFiles) {
             val virtualFileStem = File(virtualFile.path).nameWithoutExtension
             if (text == virtualFileStem) {
-                return true
+                return virtualFile
             }
         }
-        return false
+        return null
     }
 }

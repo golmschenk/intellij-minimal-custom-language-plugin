@@ -4,12 +4,14 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiManager
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.siblings
 import com.olmschenk.minilang.MiniLangFile
 import com.olmschenk.minilang.MiniLangLanguage
 import com.olmschenk.minilang.MiniLangReference
 import com.olmschenk.minilang.parser.MiniLangLexer
+import com.olmschenk.minilang.psi.MiniLangModuleIdentifier
 import com.olmschenk.minilang.psi.MiniLangNameIdentifierOwner
 import com.olmschenk.minilang.psi.MiniLangVariableIdentifier
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory
@@ -45,6 +47,13 @@ abstract class MiniLangVariableIdentifierImpl(node: ASTNode) : ASTWrapperPsiElem
         variableDefinitions: MutableList<MiniLangNameIdentifierOwner>
     ) {
         if (root != null) {
+            if (root is MiniLangModuleIdentifier) {
+                if (root.fileExists()) {
+                    val miniLangFile = PsiManager.getInstance(project).findFile(root.getFile()!!) as MiniLangFile?
+                    searchForDefinitionRecursively(miniLangFile, variableDefinitions)
+                }
+            }
+
             val nameIdentifierOwners = PsiTreeUtil.getChildrenOfType(
                 root,
                 MiniLangNameIdentifierOwner::class.java

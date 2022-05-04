@@ -16,18 +16,10 @@ class MiniLangReference(element: PsiElement, textRange: TextRange) : PsiPolyVari
     }
 
     override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> {
-        val project = myElement!!.project
+        val elementVirtualFile = myElement!!.containingFile
         val variableDefinitions: MutableList<MiniLangNameIdentifierOwner> = ArrayList()
-        val virtualFiles = FileTypeIndex.getFiles(
-            MiniLangFileType.INSTANCE, GlobalSearchScope.allScope(
-                project
-            )
-        )
-        for (virtualFile in virtualFiles) {
-            val miniLangFile = PsiManager.getInstance(project).findFile(virtualFile!!) as MiniLangFile?
-            val root = miniLangFile
-            (myElement as MiniLangVariableIdentifier).searchForDefinitionRecursively(root, variableDefinitions)
-        }
+        (myElement as MiniLangVariableIdentifier).searchForDefinitionRecursively(elementVirtualFile,
+            variableDefinitions)
         val results: MutableList<ResolveResult> = ArrayList()
         for (variableDefinition in variableDefinitions) {
             results.add(PsiElementResolveResult(variableDefinition))
