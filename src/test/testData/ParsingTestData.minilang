@@ -1,0 +1,11 @@
+use othermodule;
+
+let e = ddd;
+let x = 5;
+let y = x + 4;
+let use 5;
+let z = y + x;
+let y = z + aaa;
+let aaa = 3;
+let y = z + aaa;
+
