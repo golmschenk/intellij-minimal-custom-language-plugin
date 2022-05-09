@@ -5,6 +5,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiManager
+import com.intellij.openapi.project.Project
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.siblings
 import com.olmschenk.minilang.MiniLangFile
@@ -89,4 +90,36 @@ abstract class MiniLangVariableIdentifierImpl(node: ASTNode) : ASTWrapperPsiElem
             return false;
         }
     }
+
+    abstract override val static: Static
+    abstract class Static : MiniLangVariableIdentifier.Static {
+        override fun searchForDefinitionsRecursively(
+            project: Project,
+            root: PsiElement?,
+            variableDefinitions: MutableList<MiniLangNameIdentifierOwner>
+        ) {
+            if (root != null) {
+                if (root is MiniLangModuleIdentifier) {
+                    if (root.fileExists()) {
+                        val miniLangFile = PsiManager.getInstance(project).findFile(root.getFile()!!) as MiniLangFile?
+                        searchForDefinitionsRecursively(project, miniLangFile, variableDefinitions)
+                    }
+                }
+
+                val nameIdentifierOwners = PsiTreeUtil.getChildrenOfType(
+                    root,
+                    MiniLangNameIdentifierOwner::class.java
+                )
+                if (nameIdentifierOwners != null) {
+                    for (nameIdentifierOwner in nameIdentifierOwners) {
+                        variableDefinitions.add(nameIdentifierOwner)
+                    }
+                }
+                for (child in root.children) {
+                    searchForDefinitionsRecursively(project, child, variableDefinitions)
+                }
+            }
+        }
+    }
 }
+

@@ -36,4 +36,7 @@ class MiniLangVariableDeclarationImpl(node: ASTNode) : MiniLangVariableIdentifie
             return variableIdentifierNode as MiniLangVariableDeclaration
         }
     }
+
+    override val static: Static = Static()
+    class Static: MiniLangVariableIdentifierImpl.Static()
 }

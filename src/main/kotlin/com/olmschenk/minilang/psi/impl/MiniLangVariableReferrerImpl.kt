@@ -33,4 +33,7 @@ class MiniLangVariableReferrerImpl(node: ASTNode) : MiniLangVariableIdentifierIm
                 .create()
         }
     }
+
+    override val static: Static = Static()
+    class Static: MiniLangVariableIdentifierImpl.Static()
 }

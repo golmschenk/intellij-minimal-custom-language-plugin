@@ -1,5 +1,7 @@
 package com.olmschenk.minilang
 
+import com.intellij.codeInsight.lookup.LookupElement
+import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
 import com.olmschenk.minilang.psi.MiniLangNameIdentifierOwner
@@ -14,7 +16,12 @@ class MiniLangReference(element: PsiElement, textRange: TextRange) : PsiPolyVari
     }
 
     override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> {
-        val variableDefinitions: MutableList<MiniLangNameIdentifierOwner> = findIdentifierOwnerList()
+        val elementVirtualFile = myElement!!.containingFile
+        val variableDefinitions: MutableList<MiniLangNameIdentifierOwner> = ArrayList()
+        (myElement as MiniLangVariableIdentifier).searchForDefinitionRecursively(
+            elementVirtualFile,
+            variableDefinitions
+        )
         val results: MutableList<ResolveResult> = ArrayList()
         for (variableDefinition in variableDefinitions) {
             results.add(PsiElementResolveResult(variableDefinition))
@@ -23,17 +30,14 @@ class MiniLangReference(element: PsiElement, textRange: TextRange) : PsiPolyVari
     }
 
     override fun getVariants(): Array<Any> {
-        return findIdentifierOwnerList().toTypedArray()
-    }
-
-    private fun findIdentifierOwnerList(): MutableList<MiniLangNameIdentifierOwner> {
         val elementVirtualFile = myElement!!.containingFile
         val variableDefinitions: MutableList<MiniLangNameIdentifierOwner> = ArrayList()
-        (myElement as MiniLangVariableIdentifier).searchForDefinitionRecursively(
+        (myElement as MiniLangVariableIdentifier).static.searchForDefinitionsRecursively(
+            myElement.project,
             elementVirtualFile,
             variableDefinitions
         )
-        return variableDefinitions
+        return variableDefinitions.toTypedArray()
     }
 
     // `setName` is called for the element being renamed, and this is called for all references of that element.
