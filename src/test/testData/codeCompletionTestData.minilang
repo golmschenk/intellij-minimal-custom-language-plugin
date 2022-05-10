@@ -1,0 +1,3 @@
+let aaaaa = 5;
+let aaabbb = 6;
+let ccccc = aa<caret>;

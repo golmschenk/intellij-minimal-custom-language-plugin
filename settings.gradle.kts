@@ -1,1 +1,1 @@
-rootProject.name = "intellij-minimal-refactoring-plugin"
+rootProject.name = "intellij-minimal-custom-language-plugin"
