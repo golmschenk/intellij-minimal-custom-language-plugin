@@ -8,7 +8,7 @@ EQUALS : '=' ;
 PLUS : '+' ;
 IDENTIFIER : ALPHA+ ;
 NUMBER : DIGIT+ ;
-INVALID_CHARACTER: . -> channel(HIDDEN);
+INVALID_CHARACTER: . -> channel(HIDDEN) ;
 
 fragment
 ALPHA : [A-Za-z] ;

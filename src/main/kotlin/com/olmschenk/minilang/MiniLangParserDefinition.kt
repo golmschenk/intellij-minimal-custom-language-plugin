@@ -32,10 +32,6 @@ class MiniLangParserDefinition : ParserDefinition {
         return ANTLRLexerAdaptor(MiniLangLanguage.INSTANCE, lexer)
     }
 
-    override fun getWhitespaceTokens(): TokenSet {
-        return WHITESPACE
-    }
-
     override fun getCommentTokens(): TokenSet {
         return TokenSet.EMPTY
     }
@@ -59,10 +55,6 @@ class MiniLangParserDefinition : ParserDefinition {
 
     override fun createFile(viewProvider: FileViewProvider): PsiFile {
         return MiniLangFile(viewProvider)
-    }
-
-    override fun spaceExistenceTypeBetweenTokens(left: ASTNode, right: ASTNode): SpaceRequirements {
-        return SpaceRequirements.MAY
     }
 
     override fun createElement(node: ASTNode): PsiElement {
